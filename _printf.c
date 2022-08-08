@@ -12,7 +12,6 @@ int i = 0;
 print_t p[] = {
 {"c", print_c},
 {"s", print_s},
-{"%", print_%},
 {NULL, NULL}
 };
 
