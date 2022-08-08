@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * print_c - A function that prints a char
+ * print_% - A function that prints a char
  * @c: character to print
  * Return: Always 1 (Success)
  */
-int print_c(va_list c)
+int print_%(va_list %)
 {
 	char character = (char)va_arg(%, int);
 
