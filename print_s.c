@@ -7,11 +7,11 @@
  * @S: string to print
  * Return: number of printed characters
  */
-int print_s(va_list S)
+int print_s(va_list s)
 {
 	unsigned int i = 0;
 	int counter = 0;
-	char *str = va_arg(S, char *);
+	char *str = va_arg(s, char *);
 
 	if (str == NULL)
 		str = "(null)";
@@ -22,7 +22,7 @@ int print_s(va_list S)
 			_putchar('\\');
 			_putchar('x');
 			counter += 2;
-			counter += print_x(S);
+			counter += print_x(s);
 		}
 		else
 		{
