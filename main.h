@@ -1,13 +1,13 @@
-#ifndef _HOLBERTON_H_
-#define _HOLBERTON_H_
+#ifndef _MAIN_H_
+#define _MAIN_H_
 #include <stdarg.h>
 #include <stdio.h>
 
 /**
- * struct print - structure for printing various types
- * @t: type to print
- * @f: function to print
- */
+* struct print - structure for printing various types
+* @t: type to print
+* @f: function to print
+*/
 typedef struct print
 {
 	char *t;
@@ -40,4 +40,4 @@ int print_less(va_list less);
 int print_space(va_list space);
 int print_sharp(va_list sharp);
 
-#endif  /* _HOLBERTON_H */
+#endif  /* _MAIN_H */
