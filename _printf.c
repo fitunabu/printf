@@ -1,49 +1,84 @@
 #include "main.h"
+#include <stdarg.h>
+
 /**
-* _printf - function that prints based on format specifier
-* @format: takes in format specifier
-* Return: return pointer to index
+* check_format - checks if there is a valid format specifier
+* @format: possible valid format specifier
+* Return: pointer to valid function or NULL
+*/
+int (*check_format(const char *format))(va_list)
+{
+int i = 0;
+print_t p[] = {
+{"c", print_c},
+{"s", print_s},
+{"i", print_i},
+{"d", print_d},
+{"b", print_b},
+{"u", print_u},
+{"o", print_o},
+{"x", print_x},
+{"X", print_X},
+{"p", print_p},
+{"S", print_S},
+{"r", print_r},
+{"R", print_R},
+{NULL, NULL}
+};
+
+for (; p[i].t != NULL; i++)
+{
+if (*(p[i].t) == *format)
+break;
+}
+return (p[i].f);
+}
+
+/**
+* _printf - function for format printing
+* @format: list of arguments to printing
+* Return: Number of characters to printing
 */
 int _printf(const char *format, ...)
 {
-char buffer[1024];
-int i, j = 0, a = 0, *index = &a;
-va_list valist;
-vtype_t spec[] = {
-{'c', format_c}, {'d', format_d}, {'s', format_s}, {'i', format_d},
-{'u', format_u}, {'%', format_perc}, {'x', format_h}, {'X', format_ch},
-{'o', format_o}, {'b', format_b}, {'p', format_p}, {'r', format_r},
-{'R', format_R}, {'\0', NULL}
-};
-if (!format)
+va_list ap;
+int (*f)(va_list);
+unsigned int i = 0, counter = 0;
+
+if (format == NULL)
 return (-1);
-va_start(valist, format);
-for (i = 0; format[i] != '\0'; i++)
+
+va_start(ap, format);
+while (format && format[i])
 {
-for (; format[i] != '%' && format[i] != '\0'; *index += 1, i++)
+if (format[i] != '%')
 {
-if (*index == 1024)
-{	_write_buffer(buffer, index);
-reset_buffer(buffer);
-*index = 0;
+_putchar(format[i]);
+counter++;
+i++;
+continue;
 }
-buffer[*index] = format[i];
-}
-if (format[i] == '\0')
-break;
-if (format[i] == '%')
-{	i++;
-for (j = 0; spec[j].tp != '\0'; j++)
+else
 {
-if (format[i] == spec[j].tp)
-{	spec[j].f(valist, buffer, index);
-break;
+if (format[i + 1] == '%')
+{
+_putchar('%');
+counter++;
+i += 2;
+continue;
+}
+else
+{
+f = check_format(&format[i + 1]);
+if (f == NULL)
+return (-1);
+i += 2;
+counter += f(ap);
+continue;
 }
 }
+i++;
 }
-}
-va_end(valist);
-buffer[*index] = '\0';
-_write_buffer(buffer, index);
-return (*index);
+va_end(ap);
+return (counter);
 }
